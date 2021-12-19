@@ -1,3 +1,5 @@
+# This puzzle enlightens Stock Trading Algorithm.
+
 import numpy as np
 
 # simple regression model
