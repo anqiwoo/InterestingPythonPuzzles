@@ -3,8 +3,8 @@ def sort_recursion(s):
         return s
     else:
         return sort_recursion([x for x in s[1:] if x <= s[0]]) \
-            + [s[0]] \
-            + sort_recursion([x for x in s[1:] if x > s[0]])
+            + [s[0]]
+        + sort_recursion([x for x in s[1:] if x > s[0]])
         # can only concatenate list (not "int") to list
 
 
