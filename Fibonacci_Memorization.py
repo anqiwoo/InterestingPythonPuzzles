@@ -21,17 +21,16 @@ def fibm(n):
         return fib_value
 
 
-n = 100
-t1 = t.time()
+n = 10
+t1 = t.perf_counter()
 y1 = fib(n)
-t2 = t.time()
+t2 = t.perf_counter()
 y2 = fibm(n)
-t3 = t.time()
+t3 = t.perf_counter()
 
 print(y1 == y2)  # True
+print(t3 - t2 < t2 - t1)  # True
 
-# True But if you set n too small, the difference is not significant.
-print(t3 - t2 < t2 - t1)
 
 '''
 The Fibonacci series calculates the sum of the last two series values and appends the result to the series.
