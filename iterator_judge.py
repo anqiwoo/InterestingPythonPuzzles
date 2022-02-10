@@ -5,3 +5,4 @@ l = list(g)
 
 print(isinstance(g, Iterator))
 print(isinstance(l, Iterator))
+print(isinstance(iter(l), Iterator))
