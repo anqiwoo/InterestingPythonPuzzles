@@ -1,3 +1,8 @@
+# Give your birthday,
+# calculate your age in days.
+# Compensate for leap years. Assume that the birthday date is a correct date.
+# Simply put, if you were born 1 Jan 2022 and today's date
+# is 2 Jan 2022, you are 1 days old.
 from datetime import date
 from datetime import datetime
 
