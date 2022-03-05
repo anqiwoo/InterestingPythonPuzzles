@@ -3,7 +3,7 @@ ages = [11, 22, 33]
 countries = ['Argentina', 'Brazil', 'China']
 
 values = zip(countries, ages)  # zip() function returns an iterator
-print(list(values)[0])
+print(list(values)[0])  # Iterate over values.
 
 # If you iterate over the iterator once, it becomes empty.
 names_dict = dict(zip(names, values))
