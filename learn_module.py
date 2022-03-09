@@ -6,6 +6,7 @@
 __author__ = 'Anqi Wu'
 
 import sys
+import os
 
 
 def test():
@@ -19,4 +20,11 @@ def test():
 
 
 if __name__ == '__main__':
-    test()
+    # test()
+    print(os.path.split(__file__)[1])
+    print(os.path.split(os.path.split(__file__)[0]))
+    for path, dirs, files in os.walk(__file__, topdown=True):
+        for _dir in dirs:
+            print(os.path.join(path, _dir))
+        for _file in files:
+            print(os.path.join(path, _file))
