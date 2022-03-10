@@ -13,10 +13,13 @@
 
 面向对象高级编程:
 1. __slots__:用tuple定义允许绑定的属性名称，用以限制绑定实例的属性
-1. 多重继承:
+2. Python内置的@property装饰器：负责把一个方法变成属性调用；@property广泛应用在类的定义中，可以让调用者写出简短的代码，同时保证对参数进行必要的检查(setter),这样，程序运行时就减少了出错的可能性。
+3. 多重继承:存在一个主要的类层次，然后需要另外功能的子类，就再继承别的父类，这种设计通常称之为MixIn。MixIn的目的就是给一个类增加多个功能，这样，在设计类的时候，我们优先考虑通过多重继承来组合多个MixIn的功能，而不是设计多层次的复杂的继承关系。通过多重继承，一个子类就可以同时获得多个父类的所有功能。我们不需要复杂而庞大的继承链，只要选择组合不同的类的功能，就可以快速构造出所需的子类。由于Python允许使用多重继承，因此，MixIn就是一种常见的设计。只允许单一继承的语言（如Java）不能使用MixIn的设计。
 2. 定制类:
 3. 元类:
 '''
+
+from types import MethodType
 
 
 class Animal:
@@ -35,6 +38,21 @@ class Animal:
 
 
 class Dog(Animal):
+    # ----- @property: 把一个getter方法变成属性，只需要加上@property就可以了，此时，@property本身又创建了另一个装饰器@score.setter，负责把一个setter方法变成属性赋值;只定义getter方法，不定义setter方法就是一个只读属性;要特别注意：属性的方法名不要和实例变量重名。
+    @property
+    def color(self):
+        return self._color
+
+    @color.setter
+    def color(self, value):
+        if not isinstance(value, str):
+            raise ValueError('color must be a string!')
+        self._color = value
+
+    @property
+    def color_length(self):
+        return len(self._color)
+
     def run(self):
         print('Dog is running...')
 
@@ -44,9 +62,22 @@ class Cat(Animal):
         print('Cat is running...')
 
 
+class FlyableMixIn():
+    def fly(self):
+        print('Flying...')
+
+
+class Bat(Animal, FlyableMixIn):
+    pass
+
+
 def run_twice(animal):
     animal.run()
     animal.run()
+
+
+def set_age(self, age):
+    self.age = age
 
 
 a = Animal('Aliceee')
@@ -55,8 +86,35 @@ b = Dog('Dylaaaan')
 print(b.count)
 c = Cat('Cathyyyyyyy')
 print(c.count)
+bat = Bat('Batty')
+bat.fly()
+print(bat.count)
 
-# a.color = 'red'
+# ---------- Test @property in Dog class
+b.color = 'red'
+print(b.color)
+print(b.color_length)
+
+
+# ---------- Set Instance method and class method
+b.set_age = MethodType(set_age, b)
+b.set_age(2)
+print(b.age)
+# d = Dog('Bobbbb')
+# d.set_age(22) # 会报错，因为给一个实例绑定的方法，对另一个实例是不起作用的
+# 为了给所有实例都绑定方法，可以给class绑定方法（Python是动态语言）
+Animal.set_age = set_age
+d = Dog('Bobbbb')
+d.set_age(22)
+print(d.age)
+
+
+# ---------- Test __slots__
+# a.color = 'red' # 会报错，因为Animal类定义里使用了__slots__限制此类实例可绑定的属性
+# 使用__slots__要注意，
+# __slots__定义的属性仅对当前类实例起作用，对继承的子类是不起作用的
+d.color = 'black'
+print(d.color)
 
 run_twice(a)
 run_twice(b)
@@ -70,7 +128,7 @@ print(len(c))
 通过内置的一系列函数，我们可以对任意一个Python对象进行剖析，
 拿到其内部的数据。要注意的是，只有在不知道对象信息的时候，我们才会去获取对象信息。
 '''
-# manipulate the attributes
+# ---------- manipulate the attributes
 # check is an attribute exists.
 print(hasattr(a, 'name'))
 print(hasattr(a, 'age'))
