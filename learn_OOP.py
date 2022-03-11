@@ -15,10 +15,11 @@
 1. __slots__:用tuple定义允许绑定的属性名称，用以限制绑定实例的属性
 2. Python内置的@property装饰器：负责把一个方法变成属性调用；@property广泛应用在类的定义中，可以让调用者写出简短的代码，同时保证对参数进行必要的检查(setter),这样，程序运行时就减少了出错的可能性。
 3. 多重继承:存在一个主要的类层次，然后需要另外功能的子类，就再继承别的父类，这种设计通常称之为MixIn。MixIn的目的就是给一个类增加多个功能，这样，在设计类的时候，我们优先考虑通过多重继承来组合多个MixIn的功能，而不是设计多层次的复杂的继承关系。通过多重继承，一个子类就可以同时获得多个父类的所有功能。我们不需要复杂而庞大的继承链，只要选择组合不同的类的功能，就可以快速构造出所需的子类。由于Python允许使用多重继承，因此，MixIn就是一种常见的设计。只允许单一继承的语言（如Java）不能使用MixIn的设计。
-2. 定制类:
+2. 定制类: Python的class允许定义许多定制方法，可以让我们非常方便地生成特定的类。__slots__ ; __str__和__repr__; __iter__和__next__; __getitem__;__getattr__; __call__; 更多参见Python官方文档。
 3. 元类:
 '''
 
+from subprocess import call
 from types import MethodType
 
 
@@ -33,8 +34,18 @@ class Animal:
     def run(self):
         print('Animal is running...')
 
+    def __call__(self):
+        print(f'My name is {self.name}.')
+
     def __len__(self):
         return len(self.name)
+
+    # 两者的区别是__str__()返回用户看到的字符串，
+    # 而__repr__()返回程序开发者看到的字符串，也就是说，__repr__()是为调试服务的。
+    def __str__(self):
+        return f'Animal Object (name: {self.name})'
+    # 通常__str__()和__repr__()代码都是一样的，所以，有个偷懒的写法：
+    __repr__ = __str__
 
 
 class Dog(Animal):
@@ -82,8 +93,15 @@ def set_age(self, age):
 
 a = Animal('Aliceee')
 print(a.count)
+print(a)  # __str__
+a()  # __call__
+# 通过callable()函数，我们就可以判断一个对象是否是“可调用”对象。
+print(callable(a))
+print(callable('a'))
 b = Dog('Dylaaaan')
 print(b.count)
+print(b)
+b()
 c = Cat('Cathyyyyyyy')
 print(c.count)
 bat = Bat('Batty')
