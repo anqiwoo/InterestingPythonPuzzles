@@ -15,8 +15,9 @@
 1. __slots__:用tuple定义允许绑定的属性名称，用以限制绑定实例的属性
 2. Python内置的@property装饰器：负责把一个方法变成属性调用；@property广泛应用在类的定义中，可以让调用者写出简短的代码，同时保证对参数进行必要的检查(setter),这样，程序运行时就减少了出错的可能性。
 3. 多重继承:存在一个主要的类层次，然后需要另外功能的子类，就再继承别的父类，这种设计通常称之为MixIn。MixIn的目的就是给一个类增加多个功能，这样，在设计类的时候，我们优先考虑通过多重继承来组合多个MixIn的功能，而不是设计多层次的复杂的继承关系。通过多重继承，一个子类就可以同时获得多个父类的所有功能。我们不需要复杂而庞大的继承链，只要选择组合不同的类的功能，就可以快速构造出所需的子类。由于Python允许使用多重继承，因此，MixIn就是一种常见的设计。只允许单一继承的语言（如Java）不能使用MixIn的设计。
-2. 定制类: Python的class允许定义许多定制方法，可以让我们非常方便地生成特定的类。__slots__ ; __str__和__repr__; __iter__和__next__; __getitem__;__getattr__; __call__; 更多参见Python官方文档。
-3. 元类:
+4. 定制类: Python的class允许定义许多定制方法，可以让我们非常方便地生成特定的类。__slots__ ; __str__和__repr__; __iter__和__next__; __getitem__;__getattr__; __call__; 更多参见Python官方文档。
+5. 枚举类：Enum可以把一组相关常量定义在一个class中，且class不可变，而且成员可以直接比较。
+3. 元类:动态语言和静态语言最大的不同，就是函数和类的定义，不是编译时定义的，而是运行时动态创建的。我们可通过元类metaclass修改类定义。
 '''
 
 from subprocess import call
@@ -92,6 +93,8 @@ def set_age(self, age):
 
 
 a = Animal('Aliceee')
+print(type(Animal))
+print(type(a))
 print(a.count)
 print(a)  # __str__
 a()  # __call__
