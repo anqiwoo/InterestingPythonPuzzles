@@ -2,6 +2,7 @@
 This is a basic hash table for integer values.
 '''
 import random
+import pprint
 
 
 def basic_hash_table(value_l, n_buckets=5):
@@ -26,5 +27,6 @@ def basic_hash_table(value_l, n_buckets=5):
 
 
 random.seed(1)
+pp = pprint.PrettyPrinter(indent=4)
 test_l = [random.randint(0, 100) for _ in range(10)]
-print(basic_hash_table(test_l))
+pp.pprint(basic_hash_table(test_l))
