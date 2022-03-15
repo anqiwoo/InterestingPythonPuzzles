@@ -1,5 +1,5 @@
 '''
-This is a basic hash table for numerical values.
+This is a basic hash table for integer values.
 '''
 import random
 
