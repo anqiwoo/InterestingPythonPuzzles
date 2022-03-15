@@ -1,6 +1,13 @@
 '''
 This is a basic hash table for integer values.
+
+Advantages of a Hash Table:
+    - speed up heavy lookup tasks
+    - allow us to divide vector space into regions
+    - can always be reproduced
+        - You Will Always hash the the same vector to the same bucket with the same hash function!!!
 '''
+
 import random
 import pprint
 
