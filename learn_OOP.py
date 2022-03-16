@@ -12,7 +12,7 @@
 3. 多态：同一种方法在不同对象上实现的功能多样化；调用方只管调用，不管细节；对拓展开放（允许增加子类），对修改封闭（在增加子类的时候，不必修改依赖父类的方法/函数）。
 
 面向对象高级编程:
-1. __slots__:用tuple定义允许绑定的属性名称，用以限制绑定实例的属性
+1. __slots__:用tuple定义允许绑定的属性名称，用以限制绑定实例的属性。
 2. Python内置的@property装饰器：负责把一个方法变成属性调用；@property广泛应用在类的定义中，可以让调用者写出简短的代码，同时保证对参数进行必要的检查(setter),这样，程序运行时就减少了出错的可能性。
 3. 多重继承:存在一个主要的类层次，然后需要另外功能的子类，就再继承别的父类，这种设计通常称之为MixIn。MixIn的目的就是给一个类增加多个功能，这样，在设计类的时候，我们优先考虑通过多重继承来组合多个MixIn的功能，而不是设计多层次的复杂的继承关系。通过多重继承，一个子类就可以同时获得多个父类的所有功能。我们不需要复杂而庞大的继承链，只要选择组合不同的类的功能，就可以快速构造出所需的子类。由于Python允许使用多重继承，因此，MixIn就是一种常见的设计。只允许单一继承的语言（如Java）不能使用MixIn的设计。
 4. 定制类: Python的class允许定义许多定制方法，可以让我们非常方便地生成特定的类。__slots__ ; __str__和__repr__; __iter__和__next__; __getitem__;__getattr__; __call__; 更多参见Python官方文档。
@@ -51,7 +51,7 @@ class Animal:
 
 
 class Dog(Animal):
-    # ----- @property: 把一个getter方法变成属性，只需要加上@property就可以了，此时，@property本身又创建了另一个装饰器@score.setter，负责把一个setter方法变成属性赋值;只定义getter方法，不定义setter方法就是一个只读属性;要特别注意：属性的方法名不要和实例变量重名。
+    # ----- @property: 把一个getter方法变成属性，只需要加上@property就可以了，此时，@property本身又创建了另一个装饰器@score.setter，负责把一个setter方法变成属性赋值;只定义getter方法，不定义setter方法就是一个只读属性;要特别注意：属性的方法名不要和实例变量重名，不然就会自己return自己，因栈溢出而报错哈。
     @property
     def color(self):
         return self._color
@@ -78,6 +78,8 @@ class Cat(Animal):
 class FlyableMixIn():
     def fly(self):
         print('Flying...')
+
+# 对于MixIn的父类，我们习惯上会在类名末尾加上MixIn，就像下面的FlyableMixIn。
 
 
 class Bat(Animal, FlyableMixIn):

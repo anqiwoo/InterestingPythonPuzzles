@@ -1,3 +1,8 @@
+'''
+Create a Iterator Class Fib using __iter__ and __next__ methods.
+'''
+
+
 class Fib():
     def __init__(self):
         self.a, self.b = 0, 1
