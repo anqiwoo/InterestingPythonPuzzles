@@ -1,3 +1,7 @@
+'''
+Source: https://realpython.com/python-metaclasses/; https://www.liaoxuefeng.com/
+'''
+
 # -- Import class definition from other module --
 from hello import Hello
 
@@ -11,10 +15,21 @@ print('-'*85)
 
 # -- Use type() function to create a class definition like the above --
 '''
-要创建一个class对象，type()函数依次传入3个参数：
-    - class的名称；
-    - 继承的父类集合，注意Python支持多重继承，如果只有一个父类，别忘了tuple的单元素写法；
-    - class的方法名称与函数绑定，这里我们把函数fn绑定到方法名hello上。
+The built-in type() function, when passed one argument, returns the type of an object. 
+For new-style classes in Python 3, that is generally the same as the object’s __class__ attribute.
+like:
+>>> type(3)
+<class 'int'>
+
+——————————————————————————————————————————————————————————————————————————————————————————————————
+
+当要创建一个class对象，type()函数依次传入3个参数(<name>, <bases>, <dct>)：
+    - <name>: class的名称,This becomes the __name__ attribute of the class.；
+    - <bases>: 继承的父类集合，注意Python支持多重继承，如果只有一个父类，别忘了tuple的单元素写法，This becomes the __bases__ attribute of the class.；
+    - <dct>：specifies a namespace dictionary containing definitions for the class body. This becomes the __dict__ attribute of the class. class的方法名称与函数绑定，下面我们把函数fn绑定到方法名hello上。
+
+Calling type() in this manner creates a new instance of the type metaclass. 
+In other words, it dynamically creates a new class.
 '''
 
 
@@ -42,6 +57,7 @@ print('-'*85)
 '''
 除了使用type()动态创建类以外，要控制类的创建行为，还可以使用metaclass。
 我们先定义一个metaclass，然后在一个class的定义过程中通过metaclass修改该class的创建行为，最后影响到该class创建出来的实例。
+
 所以，metaclass允许你创建类或者修改类。换句话说，你可以把类看成是metaclass创建出来的“实例”。
 
 下面的例子是我们自定义的MyList增加一个add方法。
@@ -52,6 +68,8 @@ class ListMetaclass(type):
     '''
     按照默认习惯，metaclass的类名总是以Metaclass结尾，以便清楚地表示这是一个metaclass。
     metaclass是类的模板，所以必须从`type`类型派生。
+
+    type is a metaclass, of which classes are instances. Just as an ordinary object is an instance of a class, any class in Python 3, is an instance of the type metaclass.
     '''
     def __new__(cls, name, bases, attrs):
         '''
@@ -89,3 +107,12 @@ print('-'*85)
 L = MyList()
 L.add(100)
 print(L)  # [100]
+
+
+'''
+Conclusion:
+Metaclasses can easily veer into the realm of being a “solution in search of a problem.” 
+It isn’t typically necessary to create custom metaclasses. 
+If the problem at hand can be solved in a simpler way, it probably should be. 
+Still, it is beneficial to understand metaclasses so that you understand Python classes in general and can recognize when a metaclass really is the appropriate tool to use.
+'''
