@@ -6,7 +6,7 @@ a_directory_path = './learn_os_walk'
 a_file_path = './learn_os_walk.py'  # same as a_file_path = __file__
 
 
-def take_a_walk(fp, topdown_flag=False):
+def take_a_walk(fp, topdown_flag=True):
     print(f'\ntopdown_flag:{topdown_flag}\n')
     for pathname, subdirnames, subfilenames in os.walk(fp, topdown=topdown_flag):
         print(pathname)
