@@ -36,5 +36,5 @@ def fact(n):
 
 
 if __name__ == '__main__':
-    doctest.testmod()
+    doctest.testmod()  # 什么输出也没有。这说明我们编写的doctest运行都是正确的。
     # fact(-1)
