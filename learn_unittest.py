@@ -9,7 +9,6 @@ unit test单元测试是用来对一个模块、一个函数或者一个类来�
 可以在单元测试中编写两个特殊的setUp()和tearDown()方法。这两个方法会分别在每调用一个测试方法的前后分别被执行。
 '''
 
-from multiprocessing.sharedctypes import Value
 import unittest
 
 
@@ -86,6 +85,9 @@ if __name__ == '__main__':
     unittest.main()
 这样就可以把XX.py当做正常的python脚本运行：
 $ python XX.py
+
+或者直接在命令行里
+$ python -m unittest XX.py
 '''
 if __name__ == '__main__':
     unittest.main()

@@ -4,7 +4,7 @@
 2. assert: e.g. assert isinstance(n, int), 'n is not an integer!' 如果断言assert失败，assert语句本身就会抛出AssertionError。程序中如果到处充斥着assert，和print()相比也好不到哪去。不过，启动Python解释器时可以用-O参数(大写英文字母O)来关闭assert， e.g. 在命令行里输入python -O debug_way.py执行本文件会关闭assert。关闭后，你可以把所有的assert语句当成pass来看。
 
 3. logging: 把print()替换为logging是第3种方式，和assert比，logging不会抛出错误，而且可以输出到文件。
-它允许你指定记录信息的级别，有debug，info，warning，error等几个级别，当我们指定level=INFO时，logging.debug就不起作用了。同理，指定level=WARNING后，debug和info就不起作用了。这样一来，你可以放心地输出不同级别的信息，也不用删除，最后统一控制输出哪个级别的信息。logging的另一个好处是通过简单的配置，一条语句可以同时输出到不同的地方，比如console和文件。
+它允许你指定记录信息和信息的级别，信息级别有debug，info，warning，error等几个级别，当我们指定level=INFO时，logging.debug就不起作用了。同理，指定level=WARNING后，debug和info就不起作用了。这样一来，你可以放心地输出不同级别的信息，也不用删除，最后统一控制输出哪个级别的信息。logging的另一个好处是通过简单的配置，一条语句可以同时输出到不同的地方，比如console和文件。
 
 4. pdb：以参数 -m pdb 启动Python的调试器pdb，让程序以单步方式运行，可以随时查看运行状态。e.g. 在命令行中输入 python -m pdb debug_way.py就可以以本module以单步方式运行:
     - 输入命令l来查看代码
