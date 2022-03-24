@@ -42,4 +42,21 @@ from datetime import datetime
     - 2相当于是直接根据seasonal序列进行时序周期性判断。
     - 根据要求，另一种判断时间序列周期性的方法是将seasonal序列通过FFT变换得到频域分量。
         - 时域周期对应频域离散：如果通过FFT变换得到的频域是离散的，那么有一个最小的分辨频率，这个自然对应了时域的最大波长，即时域的周期性。比如频率为40的正弦波频域表现是什么样的呢，只有40Hz处的点有值。（ref：https://www.zhihu.com/question/26448935）
+
+# The scipy.fft Module - https://realpython.com/python-scipy-fft/
+- The scipy.fft module is newer and should be preferred over scipy.fftpack. 
+- SciPy’s fast Fourier transform (FFT) implementation contains more features and is more likely to get bug fixes than NumPy’s implementation. If given a choice, you should use the SciPy implementation.
+
+Fourier analysis is a field that studies how a mathematical function can be decomposed into a series of simpler trigonometric functions. The Fourier transform is a tool from this field for decomposing a function into its component frequencies.
+
+the Fourier transform is a tool that allows you to take a signal and see the power of each frequency in it. Take a look at the important terms in that sentence:
+- A signal is information that changes over time. For example, audio, video, and voltage traces are all examples of signals.
+- A frequency is the speed at which something repeats. For example, clocks tick at a frequency of one hertz (Hz), or one repetition per second.
+- Power, in this case, just means the strength of each frequency.
+
+In general, you need the Fourier transform if you need to look at the frequencies in a signal. 
+If working with a signal in the time domain is difficult, then using the Fourier transform to move it into the frequency domain is worth trying.
+    - In the time domain, a signal is a wave that varies in amplitude (y-axis) over time (x-axis). The horizontal axis represents time, and the vertical axis represents amplitude.
+    - In the frequency domain, a signal is represented as a series of frequencies (x-axis) that each have an associated power (y-axis).
+
 '''
