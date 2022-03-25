@@ -11,11 +11,11 @@ Original Series  = Trend/Cycle + Seasonal + Error/Residual
 
 - Example code: https://github.com/ritvikmath/Time-Series-Analysis/blob/master/STL%20Decomposition.ipynb
 
-- Official doc on statmodels.tsa.seasonal.STL: https://www.statsmodels.org/devel/generated/statsmodels.tsa.seasonal.STL.html 
+- Official doc on statsmodels.tsa.seasonal.STL: https://www.statsmodels.org/devel/generated/statsmodels.tsa.seasonal.STL.html 
 '''
 
 import pandas as pd
-from statmodels.tsa.seasonal import STL
+from statsmodels.tsa.seasonal import STL
 import matplotlib.pyplot as plt
 from datetime import datetime
 
