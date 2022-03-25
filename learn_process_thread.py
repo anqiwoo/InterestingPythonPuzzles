@@ -37,13 +37,14 @@
 
 # 多进程（multiprocessing）
 '''
+# Fork
+有了fork调用，一个进程在接到新任务时就可以复制出一个子进程来处理新任务，
+常见的Apache服务器就是由父进程监听端口，每当有新的http请求时，就fork出子进程来处理新的http请求。
+
 如果你打算编写多进程的服务程序，Unix/Linux无疑是正确的选择。
 由于Windows没有fork调用，难道在Windows上无法用Python编写多进程的程序？
 由于Python是跨平台的，自然也应该提供一个跨平台的多进程支持。
 
-# Fork
-有了fork调用，一个进程在接到新任务时就可以复制出一个子进程来处理新任务，
-常见的Apache服务器就是由父进程监听端口，每当有新的http请求时，就fork出子进程来处理新的http请求。
 
 # Process
 multiprocessing模块就是跨平台版本的多进程模块。

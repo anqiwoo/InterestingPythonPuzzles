@@ -96,6 +96,8 @@ def set_age(self, age):
 
 
 a = Animal('Aliceee')
+print(a.__slots__)  # class with __slots__ has no attribute '__dict__'
+print('-'*85)
 print(type(Animal))
 print(type(a))
 print(a.count)
