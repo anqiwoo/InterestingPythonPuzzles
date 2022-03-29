@@ -131,3 +131,5 @@ dmypy.json
 # Other
 test.py
 test_fft.py
+faster_STL.ipynb
+run_faster_seasonality.py

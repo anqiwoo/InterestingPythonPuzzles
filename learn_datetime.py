@@ -29,6 +29,7 @@ print(dt)
 # 注意Python的timestamp是一个浮点数，整数位表示秒。
 print(dt.timestamp())
 print(now.timestamp())
+print(type(now.timestamp()))  # <class 'float'>
 
 # * timestamp -> datetime + 时区
 '''
@@ -43,13 +44,13 @@ t = now.timestamp()
 print(datetime.fromtimestamp(t))
 print(datetime.utcfromtimestamp(t))
 
-# * str转换为datetime
+# * str转换为datetime [parse]
 # 转换方法是通过datetime.strptime()实现，需要一个日期和时间的格式化字符串
 one_day = datetime.strptime('2111-1-1 1:1:1', '%Y-%m-%d %H:%M:%S')
 print(one_day)
 # %Y之类的ref：https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior
 
-# * datetime转换为str
+# * datetime转换为str [format]
 now = datetime.now()
 print(now)
 print(now.strftime('%a, %b %d %H:%M'))
