@@ -25,5 +25,6 @@ e[t]: Residual (random noise in the data that isn’t accounted for in the trend
 3. Removing Seasonality: 
     - The model of seasonality can be removed from the time series. This process is called Seasonal Adjustment, or Deseasonalizing.
     - A time series where the seasonal component has been removed is called seasonal stationary. A time series with a clear seasonal component is referred to as non-stationary.
+    - A simple way to correct for a seasonal component is to use differencing.
 
 '''
