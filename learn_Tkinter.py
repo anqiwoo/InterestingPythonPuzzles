@@ -66,6 +66,7 @@ class Application2(Frame):
         self.alertButton.pack()
 
     def hello(self):
+        # name = 'Vicky' if the self.nameInput.get() evaluates False.
         name = self.nameInput.get() or 'Vicky'
         messagebox.showinfo('Message', f"Hello, {name}")
 
