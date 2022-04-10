@@ -20,13 +20,19 @@ Ref: https://www.liaoxuefeng.com/wiki/896043488029600/896067008724000
 6. Git命令必须在Git仓库目录内执行（git init除外），在仓库目录外执行是没有意义的。
     - 初始化一个Git仓库，使用git init命令。
     - 添加文件到Git仓库，分两步：
-        1. 使用命令git add <file>，注意，可反复多次使用，添加多个文件；
-        2. 使用命令git commit -m <message>，完成。
+        1. 使用命令git add <file>，注意，可反复多次使用，添加多个文件,实际上就是把工作区的文件修改添加到暂存区；
+        2. 使用命令git commit -m <message>，完成，实际上就是把暂存区stage的所有内容提交到当前分支。
     - 要随时掌握工作区的状态，使用git status命令。
     - 如果git status告诉你有文件被修改过，用git diff可以查看修改内容。
     - HEAD指向的版本就是当前版本，因此，Git允许我们在版本的历史之间穿梭，使用命令git reset --hard commit_id。
     - 穿梭前，用git log可以查看提交历史，以便确定要回退到哪个版本。
     - 要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本。
+    - 丢弃某文件在工作区的修改，使用git checkout -- filename;
+    - 丢弃某文件在暂存区的修改，先用git reset HEAD filename将暂存区修改移回到工作区，再使用git checkout -- filename丢弃
+    - 撤销某次本地版本库的提交，直接用git reset --hard commit_id回退版本。如果已经git push到了远程库就不可了。
+    - 
 
 7. 每当你觉得文件修改到一定程度的时候，就可以“保存一个快照”，这个快照在Git中被称为commit。一旦你把文件改乱了，或者误删了文件，还可以从最近的一个commit恢复，然后继续工作，而不是把几个月的工作成果全部丢失。每提交一个新版本，实际上Git就会把它们自动串成一条时间线。
+
+8. 为什么Git比其他版本控制系统设计得优秀，因为Git跟踪并管理的是修改，而非文件。每次修改，如果不用git add到暂存区，那就不会加入到commit中。
 '''
