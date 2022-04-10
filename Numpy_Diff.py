@@ -1,5 +1,4 @@
 import numpy as np
-from numpy.lib.function_base import diff
 
 a = np.array([[1, 2, 3], [2, 2, 2], [8, 8, 8]])
 
