@@ -48,5 +48,14 @@ Ref: https://www.liaoxuefeng.com/wiki/896043488029600/896067008724000
 
 10. 分支管理：
     - 每次提交，Git都把它们串成一条时间线，这条时间线就是一个分支。截止到目前，只有一条时间线，在Git里，这个分支叫主分支，即master分支。HEAD严格来说不是指向提交，而是指向master，master才是指向提交的，所以，HEAD指向的就是当前分支。一开始的时候，master分支是一条线，Git用master指向最新的提交，再用HEAD指向master，就能确定当前分支，以及当前分支的提交点。每次提交，master分支都会向前移动一步，这样，随着你不断提交，master分支的线也越来越长。
-    - 
+    - git checkout命令加上-b参数表示创建并切换分支。切换分支使用git checkout <branch>，而前面讲过的撤销修改则是git checkout -- <file>，同一个命令，有两种作用，确实有点令人迷惑。
+    - 实际上，切换分支这个动作，用switch更科学。因此，最新版本的Git提供了新的git switch命令来切换分支。创建并切换到新的dev分支，可以使用git switch -c dev。直接切换到已有的master分支，可以使用：git switch master；
+    - 查看分支：git branch；
+    - 创建分支：git branch <name>；
+    - 切换分支：git checkout <name>或者git switch <name>；
+    - 创建+切换分支：git checkout -b <name>或者git switch -c <name>；
+    - 合并某分支到当前分支：git merge <name>；
+    - 删除分支：git branch -d <name>；
+    - 因为创建、合并和删除分支非常快，所以Git鼓励你使用分支完成某个任务，合并后再删掉分支，这和直接在master分支上工作效果是一样的，但过程更安全。
+
 '''
