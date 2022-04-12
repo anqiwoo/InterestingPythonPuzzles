@@ -27,12 +27,26 @@ Ref: https://www.liaoxuefeng.com/wiki/896043488029600/896067008724000
     - HEAD指向的版本就是当前版本，因此，Git允许我们在版本的历史之间穿梭，使用命令git reset --hard commit_id。
     - 穿梭前，用git log可以查看提交历史，以便确定要回退到哪个版本。
     - 要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本。
-    - 丢弃某文件在工作区的修改，使用git checkout -- filename;
+    - 丢弃某文件在工作区的修改，使用git checkout -- filename (git checkout其实是用版本库里的版本替换工作区的版本，无论工作区是修改还是删除，都可以“一键还原”。);
     - 丢弃某文件在暂存区的修改，先用git reset HEAD filename将暂存区修改移回到工作区，再使用git checkout -- filename丢弃
     - 撤销某次本地版本库的提交，直接用git reset --hard commit_id回退版本。如果已经git push到了远程库就不可了。
-    - 
+    - 命令git rm用于删除一个文件。如果一个文件已经被提交到版本库，那么你永远不用担心误删，但是要小心，你只能恢复文件到最新版本，你会丢失最近一次提交后你修改的内容。
 
 7. 每当你觉得文件修改到一定程度的时候，就可以“保存一个快照”，这个快照在Git中被称为commit。一旦你把文件改乱了，或者误删了文件，还可以从最近的一个commit恢复，然后继续工作，而不是把几个月的工作成果全部丢失。每提交一个新版本，实际上Git就会把它们自动串成一条时间线。
 
 8. 为什么Git比其他版本控制系统设计得优秀，因为Git跟踪并管理的是修改，而非文件。每次修改，如果不用git add到暂存区，那就不会加入到commit中。
+
+9. 远程仓库
+    - GitHub提供Git仓库托管服务的，所以，只要注册一个GitHub账号，就可以免费获得Git远程仓库。
+    - 本地Git仓库和GitHub仓库之间的传输是通过SSH加密的。
+    - GitHub允许你添加多个Key。假定你有若干电脑，你只要把每台电脑的Key都添加到GitHub，就可以在每台电脑上往GitHub推送了。
+    - 在GitHub上免费托管的Git仓库，任何人都可以看到喔（但只有你自己才能改）。所以，不要把敏感信息放进去。
+    - 要关联一个远程库，使用命令git remote add origin git@server-name:path/repo-name.git(like git remote add origin git@github.com:michaelliao/learn-git.git;实际上，Git支持多种协议，默认的git://使用ssh，但也可以使用https等其他协议，但ssh协议速度最快。), 关联一个远程库时必须给远程库指定一个名字，origin是默认习惯命名；
+    - 关联后，使用命令git push -u origin master第一次推送master分支的所有内容。此后，每次本地提交后，只要有必要，就可以使用命令git push origin master推送最新修改；
+    - 如果添加的时候地址写错了，或者就是想删除远程库，可以用git remote rm <name>命令。使用前，建议先用git remote -v查看远程库信息;
+    - 要克隆一个仓库，首先必须知道仓库的地址，然后使用git clone命令克隆。
+
+10. 分支管理：
+    - 每次提交，Git都把它们串成一条时间线，这条时间线就是一个分支。截止到目前，只有一条时间线，在Git里，这个分支叫主分支，即master分支。HEAD严格来说不是指向提交，而是指向master，master才是指向提交的，所以，HEAD指向的就是当前分支。一开始的时候，master分支是一条线，Git用master指向最新的提交，再用HEAD指向master，就能确定当前分支，以及当前分支的提交点。每次提交，master分支都会向前移动一步，这样，随着你不断提交，master分支的线也越来越长。
+    - 
 '''

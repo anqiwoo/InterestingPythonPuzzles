@@ -10,6 +10,7 @@ from datetime import datetime, timedelta, timezone
 now = datetime.now()
 print(now)
 print(type(now))
+print(now.date())
 
 # * 要指定某个日期和时间，我们直接用参数构造一个datetime实例
 dt = datetime(2100, 8, 5, 12, 00)
