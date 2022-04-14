@@ -46,7 +46,7 @@ Ref: https://www.liaoxuefeng.com/wiki/896043488029600/896067008724000
     - 如果添加的时候地址写错了，或者就是想删除远程库，可以用git remote rm <name>命令。使用前，建议先用git remote -v查看远程库信息;
     - 要克隆一个仓库，首先必须知道仓库的地址，然后使用git clone命令克隆。
 
-10. 分支管理：
+10. 分支管理【branch】
     - 每次提交，Git都把它们串成一条时间线，这条时间线就是一个分支。截止到目前，只有一条时间线，在Git里，这个分支叫主分支，即master分支。HEAD严格来说不是指向提交，而是指向master，master才是指向提交的，所以，HEAD指向的就是当前分支。一开始的时候，master分支是一条线，Git用master指向最新的提交，再用HEAD指向master，就能确定当前分支，以及当前分支的提交点。每次提交，master分支都会向前移动一步，这样，随着你不断提交，master分支的线也越来越长。
     - git checkout命令加上-b参数表示创建并切换分支。切换分支使用git checkout <branch>，而前面讲过的撤销修改则是git checkout -- <file>，同一个命令，有两种作用，确实有点令人迷惑。
     - 实际上，切换分支这个动作，用switch更科学。因此，最新版本的Git提供了新的git switch命令来切换分支。创建并切换到新的dev分支，可以使用git switch -c dev。直接切换到已有的master分支，可以使用：git switch master；
@@ -90,4 +90,18 @@ Ref: https://www.liaoxuefeng.com/wiki/896043488029600/896067008724000
         - rebase操作的特点：把分叉的提交历史“整理”成一条直线，看上去更直观。缺点是本地的分叉提交已经被修改过了；
         - rebase的目的是使得我们在查看历史提交的变化时更容易，因为分叉的提交需要三方对比。
 
+11. 标签管理【tag】
+    - 发布一个版本时，我们通常先在版本库中打一个标签（tag），这样，就唯一确定了打标签时刻的版本。标签也是版本库的一个快照。
+    - Git的标签虽然是版本库的快照，但其实它就是指向某个commit的指针（跟分支很像对不对？但是分支可以移动，标签不能移动），所以，创建和删除标签都是瞬间完成的。
+    - Git有commit，为什么还要引入tag？因为tag就是一个让人容易记住的有意义的名字（unlike commit号是6a5819e...），它跟某个commit绑在一起，方便切换到某个历史快照。
+    - 注意，使用git tag看现有标签时，标签不是按时间顺序列出，而是按字母排序的。
+    - 注意：标签总是和某个commit挂钩。如果这个commit既出现在master分支，又出现在dev分支，那么在这两个分支上都可以看到这个标签。
+    - 命令git tag <tagname> <commit id, Default=HEAD> 用于新建一个标签；
+    - 命令git tag -a <tagname> -m "blablabla..." <commit id, Default=HEAD>可以指定标签信息；
+    - 命令git tag可以查看所有标签；
+    - git show <tagname>可以查看某标签信息，包含commit id，tagger， date等等；
+    - 命令git push origin <tagname>可以推送一个本地标签；
+    - 命令git push origin --tags可以推送全部未推送过的本地标签；
+    - 命令git tag -d <tagname>可以删除一个本地标签；
+    - 命令git push origin :refs/tags/<tagname>可以删除一个远程标签。
 '''
