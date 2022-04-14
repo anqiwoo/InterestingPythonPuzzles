@@ -25,7 +25,8 @@ print(f'edge_order = 2 -> {gradient}')
 '''
 # * Underlying Gradient Calculation:
 # edge_order = 2
-gradient[0] = (one_dim[1] - one_dim[0])/2 = (4. - 1.)/2 = 1.5 
+gradient[0] = (one_dim[2] - 2 * one_dim[1] + one_dim[0])/1^2 
+            = (4. - 2*2. + 1.)/1 = 0.5 
 
 # Interior points
 gradient[1] = (one_dim[2] - one_dim[0])/2 = (4. - 1.)/2 = 1.5
