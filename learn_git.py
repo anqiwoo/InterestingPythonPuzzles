@@ -86,7 +86,8 @@ Ref: https://www.liaoxuefeng.com/wiki/896043488029600/896067008724000
         - 建立本地分支和远程分支的关联，使用git branch --set-upstream branch-name origin/branch-name；
         - 从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。
     - Rebase
-        - rebase操作可以把本地未push的分叉提交历史整理成直线；
+        - rebase操作可以把本地未push的分叉提交历史整理成直线;
+        - rebase操作的特点：把分叉的提交历史“整理”成一条直线，看上去更直观。缺点是本地的分叉提交已经被修改过了；
         - rebase的目的是使得我们在查看历史提交的变化时更容易，因为分叉的提交需要三方对比。
 
 '''
