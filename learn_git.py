@@ -116,5 +116,11 @@ Ref: https://www.liaoxuefeng.com/wiki/896043488029600/896067008724000
         - 把指定文件排除在.gitignore规则外的写法就是!+文件名，所以，只需把例外文件添加进去即可（like !App.class）。
         - 可以用git add -f强制添加进去(like git add -f App.class)。
         - 需要找出来到底哪个规则写错了，可以用git check-ignore命令检查（like  git check-ignore -v App.class）
-    - something
+    - 给Git配置好别名，就可以输入命令时偷个懒。我们鼓励偷懒。(like git config --global alias.ci commit)
+
+14. 搭建Git服务器
+    - 远程仓库实际上和本地仓库没啥不同，纯粹为了7x24小时开机并交换大家的修改。
+    - GitHub就是一个免费托管开源代码的远程仓库。但是对于某些视源代码如生命的商业公司来说，既不想公开源代码，又舍不得给GitHub交保护费，那就只能自己搭建一台Git服务器作为私有仓库使用。GitHub就是一个免费托管开源代码的远程仓库。但是对于某些视源代码如生命的商业公司来说，既不想公开源代码，又舍不得给GitHub交保护费，那就只能自己搭建一台Git服务器作为私有仓库使用。
+    - 搭建Git服务器需要准备一台运行Linux的机器，强烈推荐用Ubuntu或Debian，这样，通过几条简单的apt命令就可以完成安装。
+    - 搭建Git服务器非常简单，通常10分钟即可完成，详见：https://www.liaoxuefeng.com/wiki/896043488029600/899998870925664.
 '''
