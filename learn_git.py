@@ -104,4 +104,17 @@ Ref: https://www.liaoxuefeng.com/wiki/896043488029600/896067008724000
     - 命令git push origin --tags可以推送全部未推送过的本地标签；
     - 命令git tag -d <tagname>可以删除一个本地标签；
     - 命令git push origin :refs/tags/<tagname>可以删除一个远程标签。
+
+12. Github
+    - 在GitHub上，可以任意Fork开源仓库；
+    - 自己拥有Fork后的仓库的读写权限；
+    - 可以推送pull request给官方仓库来贡献代码。
+
+13. 自定义Git
+    - 忽略某些文件时，需要编写.gitignore；
+        - .gitignore文件本身要放到版本库里，并且可以对.gitignore做版本管理！
+        - 把指定文件排除在.gitignore规则外的写法就是!+文件名，所以，只需把例外文件添加进去即可（like !App.class）。
+        - 可以用git add -f强制添加进去。
+        - 需要找出来到底哪个规则写错了，可以用git check-ignore命令检查（like  git check-ignore -v App.class）
+    - 
 '''
