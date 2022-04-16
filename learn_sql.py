@@ -53,8 +53,4 @@
         - Aurora：由Amazon改进的一个MySQL版本，专门提供给在AWS托管MySQL用户，号称5倍的性能提升。
         - PolarDB：由Alibaba改进的一个MySQL版本，专门提供给在阿里云托管的MySQL用户，号称6倍的性能提升。
     
-
-mysql -u root -p
-输入exit退出MySQL命令行。注意，MySQL服务器仍在后台运行。
-
 '''
