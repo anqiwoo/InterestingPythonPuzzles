@@ -94,11 +94,46 @@
                 唯一约束：
                 ALTER TABLE students
                 ADD CONSTRAINT uni_name UNIQUE (name); 
-            
+4. 查询数据
+    - 使用SELECT查询的基本语句SELECT * FROM <表名>可以查询一个表的所有行和所有列的数据。
+    - SELECT查询的结果是一个二维表。    
+    - 虽然SELECT可以用作计算，但它并不是SQL的强项。但是，不带FROM子句的SELECT语句有一个有用的用途，就是用来判断当前到数据库的连接是否有效。许多检测工具会执行一条SELECT 1;来测试数据库连接。
+    - 条件查询：SELECT语句可以通过WHERE条件来设定查询条件，查询结果是满足查询条件的记录。  
+        条件	表达式举例1	表达式举例2	说明
+        使用=判断相等	score = 80	name = 'abc'	字符串需要用单引号括起来
+        使用>判断大于	score > 80	name > 'abc'	字符串比较根据ASCII码，中文字符比较根据数据库设置
+        使用>=判断大于或相等	score >= 80	name >= 'abc'	
+        使用<判断小于	score < 80	name <= 'abc'	
+        使用<=判断小于或相等	score <= 80	name <= 'abc'	
+        使用<>判断不相等	score <> 80	name <> 'abc'	
+        使用LIKE判断相似	name LIKE 'ab%'	name LIKE '%bc%'	%表示任意字符，例如'ab%'将匹配'ab'，'abc'，'abcd'
+    - 投影查询：使用SELECT *表示查询表的所有列，使用SELECT 列1, 列2, 列3则可以仅返回指定列，这种操作称为投影查询。
+        - SELECT语句可以对结果集的列进行重命名:
+            SELECT id, score points, name FROM students
+            SELECT 列1 别名1, 列2 别名2, 列3 别名3 FROM ...。
+    - 排序：使用ORDER BY可以对结果集进行排序，还可以对多列进行升序、倒序排序。
+        - 默认的排序规则是ASC：“升序”，即从小到大。ASC可以省略，即ORDER BY score ASC和ORDER BY score效果一样。
+        - 需要倒序排列就加个关键字DESC。
+        - 如果有WHERE子句，那么ORDER BY子句要放到WHERE子句后面。
+    - 分页查询：分页实际上就是从结果集中“截取”出第M~N条记录。这个查询可以通过LIMIT <N-M> OFFSET <M>子句实现。
+        - 分页查询需要先确定每页的数量和当前页数，然后确定LIMIT和OFFSET的值。
+        - LIMIT 3 OFFSET 0表示，对结果集从0号记录开始，最多取3条。注意SQL记录集的索引从0开始。
+        - 如果要查询第2页，那么我们只需要“跳过”头3条记录，也就是对结果集从3号记录开始查询，把OFFSET设定为3。
+            LIMIT 3 OFFSET 3
+        - LIMIT 3表示的意思是“最多3条记录”，最终结果集按实际数量显示。
+        - OFFSET超过了查询的最大数量并不会报错，而是得到一个空的结果集。
+        - OFFSET是可选的，如果只写LIMIT 15，那么相当于LIMIT 15 OFFSET 0。
+        - 在MySQL中，LIMIT 15 OFFSET 30还可以简写成LIMIT 30, 15。
+        - 使用LIMIT <M> OFFSET <N>分页时，随着N越来越大，查询效率也会越来越低。
+    - 
 
 
+        
 
-4. 一种最流行的开源数据库MySQL的基本安装和使用方法
+5. 修改数据
+
+
+6. 一种最流行的开源数据库MySQL的基本安装和使用方法
     - MySQL是目前应用最广泛的开源关系数据库。MySQL最早是由瑞典的MySQL AB公司开发，该公司在2008年被SUN公司收购，紧接着，SUN公司在2009年被Oracle公司收购，所以MySQL最终就变成了Oracle旗下的产品。
     - 和其他关系数据库有所不同的是，MySQL本身实际上只是一个SQL接口，它的内部还包含了多种数据引擎，常用的包括：
         - InnoDB：由Innobase Oy公司开发的一款支持事务的数据库引擎，2006年被Oracle收购；
