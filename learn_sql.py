@@ -94,6 +94,7 @@
                 唯一约束：
                 ALTER TABLE students
                 ADD CONSTRAINT uni_name UNIQUE (name); 
+
 4. 查询数据
     - 使用SELECT查询的基本语句SELECT * FROM <表名>可以查询一个表的所有行和所有列的数据。
     - SELECT查询的结果是一个二维表。    
@@ -125,12 +126,67 @@
         - OFFSET是可选的，如果只写LIMIT 15，那么相当于LIMIT 15 OFFSET 0。
         - 在MySQL中，LIMIT 15 OFFSET 30还可以简写成LIMIT 30, 15。
         - 使用LIMIT <M> OFFSET <N>分页时，随着N越来越大，查询效率也会越来越低。
-    - 
-
-
-        
+    - 聚合查询：使用聚合函数进行查询，就是聚合查询，它可以快速获得结果。
+        - 使用SQL提供的聚合查询，我们可以方便地计算总数COUNT、合计值SUM、平均值AVG、最大值MAX和最小值MIN；
+        - 通常，使用聚合查询时，我们应该给列名设置一个别名，便于处理结果
+        - 除了COUNT()函数【计算某一列的行数】外，SQL还提供了如下聚合函数：
+            函数	说明
+            SUM	计算某一列的合计值，该列必须为数值类型
+            AVG	计算某一列的平均值，该列必须为数值类型
+            MAX	计算某一列的最大值
+            MIN	计算某一列的最小值
+            注意，MAX()和MIN()函数并不限于数值类型。如果是字符类型，MAX()和MIN()会返回排序最后和排序最前的字符。
+        - 要特别注意：如果聚合查询的WHERE条件没有匹配到任何行，COUNT()会返回0，而SUM()、AVG()、MAX()和MIN()会返回NULL
+        - 每页3条记录，如何通过聚合查询获得总页数？
+            SELECT CEILING(COUNT(*)/3) FROM students;
+        - 对于聚合查询，SQL还提供了“分组聚合”的功能，该功能通过GROUP BY实现。也可以使用多个列进行分组。
+        - 聚合查询也可以添加WHERE条件。（WHERE, GROUP BY, HAVING）
+    - 多表查询：使用多表查询可以获取M x N行记录；多表查询的结果集可能非常巨大，要小心使用。
+        - SELECT * FROM students, classes
+            这种一次查询两个表的数据，查询的结果也是一个二维表，它是students表和classes表的“乘积”，即students表的每一行与classes表的每一行都两两拼在一起返回。结果集的列数是students表和classes表的列数之和，行数是students表和classes表的行数之积。这种多表查询又称笛卡尔查询。
+        - 注意，多表查询时，要使用表名.列名这样的方式来引用列和设置别名，这样就避免了结果集的列名重复问题。
+        - 用表名.列名这种方式列举两个表的所有列实在是很麻烦，所以SQL还允许给表设置一个别名。注意到FROM子句给表设置别名的语法是FROM <表名1> <别名1>, <表名2> <别名2>。
+        - 多表查询也是可以添加WHERE条件的。
+    - 连接查询：JOIN查询需要先确定主表，然后把另一个表的数据“附加”到结果集上
+        - 连接查询是另一种类型的多表查询。连接查询对多个表进行JOIN运算，简单地说，就是先确定一个主表作为结果集，然后，把其他表的行有选择性地“连接”在主表结果集上。
+        - 内连接——INNER JOIN：INNER JOIN只返回同时存在于两张表的行数据
+            注意INNER JOIN查询的写法是：
+                1. 先确定主表，仍然使用FROM <表1>的语法；
+                2. 再确定需要连接的表，使用INNER JOIN <表2>的语法；
+                3. 然后确定连接条件，使用ON <条件...>，这里的条件是s.class_id = c.id，表示students表的class_id列与classes表的id列相同的行需要连接；
+                4. 可选：加上WHERE条件查询子句、ORDER BY排序等子句。
+        - RIGHT OUTER JOIN返回右表都存在的行。如果某一行仅在右表存在，那么结果集就会以NULL填充剩下的字段。
+        - LEFT OUTER JOIN返回左表都存在的行。如果某一行仅在左表存在，那么结果集就会以NULL填充剩下的字段。
+        - FULL OUTER JOIN返回两张表的所有记录，并且，自动把对方不存在的列填充为NULL。
 
 5. 修改数据
+    - 关系数据库的基本操作就是增删改查，即CRUD：Create、Retrieve、Update、Delete。其中，对于查询，我们已经详细讲述了SELECT语句的详细用法。而对于增、删、改，对应的SQL语句分别是：
+        INSERT：插入新记录；
+        DELETE：删除已有记录；
+        UPDATE：更新已有记录。
+    - INSERT：使用INSERT，我们就可以一次向一个表中插入一条或多条记录。
+        - INSERT INTO <表名> (字段1, 字段2, ...) VALUES (值1, 值2, ...);
+        - 自增主键，它的值可以由数据库自己推算出来。此外，如果一个字段有默认值，那么在INSERT语句中也可以不出现。
+        - 要注意，字段顺序不必和数据库表的字段顺序一致，但值的顺序必须和字段顺序一致。
+        - 还可以一次性添加多条记录，只需要在VALUES子句中指定多个记录值，每个记录是由(...)包含的一组值
+            INSERT INTO students (class_id, name, gender, score) VALUES
+                (1, 'A', 'F', 100),
+                (2, 'B', 'M', 100);
+    - DELETE: 
+        - 
+    - UPDATE:使用UPDATE，我们就可以一次更新表中的一条或多条记录。
+        - UPDATE <表名> SET 字段1=值1, 字段2=值2, ... WHERE ...;
+        - 注意到UPDATE语句的WHERE条件和SELECT语句的WHERE条件其实是一样的，因此完全可以一次更新多条记录;
+            -- 更新id=5,6,7的记录
+            UPDATE students SET name='a', score=60 WHERE id >= 5 AND id <= 7;
+        - 在UPDATE语句中，更新字段时可以使用表达式。
+            -- 更新score<80的记录
+            UPDATE students SET score=score+10 WHERE score<80;
+        - 如果WHERE条件没有匹配到任何记录，UPDATE语句不会报错，也不会有任何记录被更新。
+        - 最后，要特别小心的是，UPDATE语句可以没有WHERE条件。这时，整个表的所有记录都会被更新。所以，在执行UPDATE语句时要非常小心，最好先用SELECT语句来测试WHERE条件是否筛选出了期望的记录集，然后再用UPDATE更新。
+        - MySQL
+            - 在使用MySQL这类真正的关系数据库时，UPDATE语句会返回更新的行数以及WHERE条件匹配的行数。
+
 
 
 6. 一种最流行的开源数据库MySQL的基本安装和使用方法
