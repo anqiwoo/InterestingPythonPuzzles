@@ -172,8 +172,17 @@
             INSERT INTO students (class_id, name, gender, score) VALUES
                 (1, 'A', 'F', 100),
                 (2, 'B', 'M', 100);
-    - DELETE: 
-        - 
+    - DELETE: 使用DELETE，我们就可以一次删除表中的一条或多条记录。
+        - DELETE FROM <表名> WHERE ...;
+        - DELETE语句的WHERE条件也是用来筛选需要删除的行，因此和UPDATE类似，DELETE语句也可以一次删除多条记录
+            --  删除id=5,6,7的记录
+            DELETE FROM students WHERE id >= 5 AND id <= 7;
+        - 如果WHERE条件没有匹配到任何记录，DELETE语句不会报错，也不会有任何记录被删除。
+        - 最后，要特别小心的是，和UPDATE类似，不带WHERE条件的DELETE语句会删除整个表的数据。所以，在执行DELETE语句时也要非常小心，最好先用SELECT语句来测试WHERE条件是否筛选出了期望的记录集，然后再用DELETE删除。
+            -- 删除整个students表
+            DELETE FROM students
+        - MySQL
+            - 在使用MySQL这类真正的关系数据库时，DELETE语句也会返回删除的行数以及WHERE条件匹配的行数。
     - UPDATE:使用UPDATE，我们就可以一次更新表中的一条或多条记录。
         - UPDATE <表名> SET 字段1=值1, 字段2=值2, ... WHERE ...;
         - 注意到UPDATE语句的WHERE条件和SELECT语句的WHERE条件其实是一样的，因此完全可以一次更新多条记录;
@@ -187,8 +196,6 @@
         - MySQL
             - 在使用MySQL这类真正的关系数据库时，UPDATE语句会返回更新的行数以及WHERE条件匹配的行数。
 
-
-
 6. 一种最流行的开源数据库MySQL的基本安装和使用方法
     - MySQL是目前应用最广泛的开源关系数据库。MySQL最早是由瑞典的MySQL AB公司开发，该公司在2008年被SUN公司收购，紧接着，SUN公司在2009年被Oracle公司收购，所以MySQL最终就变成了Oracle旗下的产品。
     - 和其他关系数据库有所不同的是，MySQL本身实际上只是一个SQL接口，它的内部还包含了多种数据引擎，常用的包括：
@@ -199,5 +206,45 @@
         - MariaDB：由MySQL的创始人创建的一个开源分支版本，使用XtraDB引擎。
         - Aurora：由Amazon改进的一个MySQL版本，专门提供给在AWS托管MySQL用户，号称5倍的性能提升。
         - PolarDB：由Alibaba改进的一个MySQL版本，专门提供给在阿里云托管的MySQL用户，号称6倍的性能提升。
-    
+    - 命令行程序mysql实际上是MySQL客户端，真正的MySQL服务器程序是mysqld，在后台运行。
+    - 管理MySQL
+        - MySQL Workbench可以用可视化的方式查询、创建和修改数据库表，但是，归根到底，MySQL Workbench是一个图形客户端，它对MySQL的操作仍然是发送SQL语句并执行。因此，本质上，MySQL Workbench和MySQL Client命令行都是客户端，和MySQL交互，唯一的接口就是SQL。
+        - 因此，MySQL提供了大量的SQL语句用于管理。虽然可以使用MySQL Workbench图形界面来直接管理MySQL，但是，很多时候，通过SSH远程连接时，只能使用SQL命令，所以，了解并掌握常用的SQL管理操作是必须的。
+        - 数据库
+            - 在一个运行MySQL的服务器上，实际上可以创建多个数据库（Database）。
+            - 要列出所有数据库，使用命令：SHOW DATABASES;
+                - 其中，information_schema、mysql、performance_schema和sys是系统库，不要去改动它们。其他的是用户创建的数据库。
+            - 要创建一个新数据库，使用命令：CREATE DATABASE test;
+            - 要删除一个数据库，使用命令：DROP DATABASE test;
+                - 注意：删除一个数据库将导致该数据库的所有表全部被删除。
+            - 对一个数据库进行操作时，要首先将其切换为当前数据库：USE test;
+        - 表
+            - 列出当前数据库的所有表，使用命令：SHOW TABLES;
+            - 要查看一个表的结构，使用命令：DESC students;
+            - 还可以使用以下命令查看创建表的SQL语句: SHOW CREATE TABLE students;
+            - 创建表使用CREATE TABLE语句，而删除表使用DROP TABLE语句: 
+                CREATE TABLE students(
+                    'id' bigint(20) NOT NULL AUTO_INCREMENT,
+                    'class_id' bigint(20) NOT NULL,
+                    'name' varchar(100) NOT NULL,
+                    'gender' varchar(1) NOT NULL,
+                    'score' int(11) NOT NULL,
+                    PRIMARY KEY ('id')
+                ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+                 DROP TABLE students;
+            - 修改表就比较复杂。如果要给students表新增一列birth，使用：
+                ALTER TABLE students ADD COLUMN birth VARCHAR(10) NOT NULL;
+            - 要修改birth列，例如把列名改为birthday，类型改为VARCHAR(20)：
+                ALTER TABLE students CHANGE COLUMN birth birthday VARCHAR(20) NOT NULL;
+            - 要删除列，使用：
+                ALTER TABLE students DROP COLUMN birthday;
+            - 使用EXIT命令退出MySQL
+                mysql> EXIT
+                Bye
+            - 注意EXIT仅仅断开了客户端和服务器的连接，MySQL服务器仍然继续运行。
+        - 实用SQL语句
+            - 插入或替换
+                - 如果我们希望插入一条新记录（INSERT），但如果记录已经存在，就先删除原记录，再插入新记录。此时，可以使用REPLACE语句，这样就不必先查询，再决定是否先删除再插入：
+                REPLACE INTO students (id, class_id, name, gender, score) VALUES ()
 '''
