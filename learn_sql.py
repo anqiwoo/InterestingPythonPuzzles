@@ -246,5 +246,88 @@
         - 实用SQL语句
             - 插入或替换
                 - 如果我们希望插入一条新记录（INSERT），但如果记录已经存在，就先删除原记录，再插入新记录。此时，可以使用REPLACE语句，这样就不必先查询，再决定是否先删除再插入：
-                REPLACE INTO students (id, class_id, name, gender, score) VALUES ()
+                REPLACE INTO students (id, class_id, name, gender, score) VALUES (1, 1, '小明', 'F', 99);
+                若id=1的记录不存在，REPLACE语句将插入新记录，否则，当前id=1的记录将被删除，然后再插入新记录。
+            - 插入或更新
+                - 如果我们希望插入一条新记录（INSERT），但如果记录已经存在，就更新该记录，此时，可以使用INSERT INTO ... ON DUPLICATE KEY UPDATE ...语句
+                INSERT INTO students (id, class_id, name, gender, score) VALUES (1, 1, '小明', 'F', 99) ON DUPLICATE KEY UPDATE name='小明', gender='F', score=99;
+            - 插入或忽略
+                - 如果我们希望插入一条新记录（INSERT），但如果记录已经存在，就啥事也不干直接忽略，此时，可以使用INSERT IGNORE INTO ...语句：
+                INSERT IGNORE INTO students (id, class_id, name, gender, score) VALUES (1, 1, '小明', 'F', 99);
+            - 快照
+                - 复制一份当前表的数据到一个新表，可以结合CREATE TABLE和SELECT:
+                    CREATE TABLE students_of_class1 SELECT * FROM students WHERE class_id=1;
+                    新创建的表结构和SELECT使用的表结构完全一致。
+            - 写入查询结果集:
+                - 如果查询结果集需要写入到表中，可以结合INSERT和SELECT，将SELECT语句的结果集直接插入到指定表中:
+                    CREATE TABLE statistics (
+                        id BIGINT NOT NULL AUTO_INCREMENT,
+                        class_id BIGINT NOT NULL,
+                        average DOUBLE NOT NULL,
+                        PRIMARY KEY (id)
+                    );
+                    ----------------------------------------------------------------
+                    INSERT INTO statistics (class_id, average) SELECT class_id, AVG(score) FROM students GROUP BY class_id;
+            - 强制使用指定索引
+                - 在查询的时候，数据库系统会自动分析查询语句，并选择一个最合适的索引。但是很多时候，数据库系统的查询优化器并不一定总是能使用最优索引。如果我们知道如何选择索引，可以使用FORCE INDEX强制查询使用指定的索引。
+                    SELECT * FROM students FORCE INDEX (idx_class_id) WHERE class_id = 1 ORDER BY id DESC;
+                    指定索引的前提是索引idx_class_id必须存在。
+                    ALTER TABLE students
+                    ADD INDEX idx_class_id (class_id);
+
+7. 事务
+    - 把多条语句作为一个整体进行操作的功能，被称为数据库事务。
+    - 数据库事务可以确保该事务范围内的所有操作都可以全部成功或者全部失败。如果事务失败，那么效果就和没有执行这些SQL一样，不会对数据库数据有任何改动。（事务范围内操作要么都做，要么都没做）
+    - 数据库事务具有ACID这4个特性：
+        A：Atomic，原子性，将所有SQL作为原子工作单元执行，要么全部执行，要么全部不执行；
+        C：Consistent，一致性，事务完成后，所有数据的状态都是一致的，即A账户只要减去了100，B账户则必定加上了100；
+        I：Isolation，隔离性，如果有多个事务并发执行，每个事务作出的修改必须与其他事务隔离；
+        D：Duration，持久性，即事务完成后，对数据库数据的修改被持久化存储。
+    - 对于单条SQL语句，数据库系统自动将其作为一个事务执行，这种事务被称为隐式事务。
+    - 要手动把多条SQL语句作为一个事务执行，使用BEGIN开启一个事务，使用COMMIT提交一个事务，这种事务被称为显式事务。
+        BEGIN;
+        UPDATE accounts SET balance = balance - 100 WHERE id = 1;
+        UPDATE accounts SET balance = balance + 100 WHERE id = 2;
+        COMMIT;
+        --COMMIT是指提交事务，即试图把事务内的所有SQL所做的修改永久保存。如果COMMIT语句执行失败了，整个事务也会失败。
+    - 有些时候，我们希望主动让事务失败，这时，可以用ROLLBACK回滚事务，整个事务会失败
+        BEGIN;
+        UPDATE accounts SET balance = balance - 100 WHERE id = 1;
+        UPDATE accounts SET balance = balance + 100 WHERE id = 2;
+        ROLLBACK;
+    - 数据库事务是由数据库系统保证的，我们只需要根据业务逻辑使用它就可以。
+    - 隔离级别
+        - 对于两个并发执行的事务，如果涉及到操作同一条记录的时候，可能会发生问题。因为并发操作会带来数据的不一致性，包括脏读、不可重复读、幻读等。数据库系统提供了隔离级别来让我们有针对性地选择事务的隔离级别，避免数据不一致的问题（隔离性）。
+        - SQL标准定义了4种隔离级别，分别对应可能出现的数据不一致的情况
+            solation Level	脏读（Dirty Read）	不可重复读（Non Repeatable Read）	幻读（Phantom Read）
+            Read Uncommitted	Yes	            Yes	                                Yes
+            Read Committed	    -	            Yes                                 Yes
+            Repeatable Read	    -	            -	                                Yes
+            Serializable	    -	            -	                                -
+        
+        - Read Uncommitted
+            - Read Uncommitted是隔离级别最低的一种事务级别。在这种隔离级别下，一个事务会读到另一个事务更新后但未提交的数据，如果另一个事务回滚，那么当前事务读到的数据就是脏数据，这就是脏读（Dirty Read）。
+                SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+            - 在Read Uncommitted隔离级别下，一个事务可能读取到另一个事务更新但未提交的数据，这个数据有可能是脏数据。
+        - Read Committed
+            - 在Read Committed隔离级别下，一个事务可能会遇到不可重复读（Non Repeatable Read）的问题。
+                SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+            - Non Repeatable Read 不可重复读是指，在一个事务内，多次读同一数据，在这个事务还没有结束时，如果另一个事务恰好修改了这个数据，那么，在第一个事务中，两次读取的数据就可能不一致。
+            - 在Read Committed隔离级别下，事务不可重复读同一条记录，因为很可能读到的结果不一致。
+        - Repeatable Read
+            - 在Repeatable Read隔离级别下，一个事务可能会遇到幻读（Phantom Read）的问题。
+                SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+            - 幻读是指，在一个事务中，第一次查询某条记录，发现没有（哪怕是在另一个事物INSERT INTO这条记录并COMMIT之后，重复读这条记录还是不存在，确保重复读的正确性），但是，当试图更新这条不存在的记录时，竟然能成功(可以是另一个事务INSERT INTO这条记录并COMMIT了)，并且，再次读取同一条记录，它就神奇地出现了。
+            - 幻读就是没有读到的记录，以为不存在，但其实是可以更新成功的，并且，更新成功后，再次读取，就出现了。
+        - Serializable 
+            - Serializable是最严格的隔离级别。在Serializable隔离级别下，所有事务按照次序依次执行，因此，脏读、不可重复读、幻读都不会出现。
+            - 虽然Serializable隔离级别下的事务具有最高的安全性，但是，由于事务是串行执行，所以效率会大大下降，应用程序的性能会急剧降低。如果没有特别重要的情景，一般都不会使用Serializable隔离级别。
+            - 如果没有指定隔离级别，数据库就会使用默认的隔离级别。
+                - 在MySQL中，如果使用InnoDB，默认的隔离级别是Repeatable Read。
+        - 四种隔离级别用最简单的话来说：
+            - READ UNCOMMITTED: 新事务可以读到其他事务还没提交（commit）的修改，可能读到脏数据【脏读+不可重复读+幻读】。
+            - READ COMMITTED：新事务不可以读到其他事务还没提交的修改，但可以读到提交后的修改，可能两次读同一记录读到不同的数据【不可重复读+幻读】。
+            - READ REPEATABLE：新事务重复读一个记录以第一次读到的结果为准，不管后续是否别的事务有没有对记录做修改，那可能别人改了你读不出来，但可以UPDATE你读不出来的记录。【幻读】
+            - SERIALIZABLE：新事务得等之前事务结束后再执行，即串行执行。【无脏读/不可重复读/幻读问题，但效率低】
+
 '''
