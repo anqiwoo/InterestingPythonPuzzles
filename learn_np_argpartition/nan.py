@@ -1,6 +1,6 @@
 import numpy as np
 
-# Do not handle np.nan problem:
+# * Do not handle np.nan problem:
 print('Do not handle np.nan problem:')
 one_dim = np.array([2, 3, 1, np.nan, 5, 4, np.nan])
 # kth=0 -> partition based on 2(zero index).
@@ -9,7 +9,7 @@ print(f'Unpartitioned array: {one_dim}')
 print(f'Partitioned array index: {partitioned}')
 print(f'Partitioned array: {one_dim[partitioned]}')
 
-# Handle np.nan problem:
+# * Handle np.nan problem:
 # np.nan is taken as an infinite large number in Python.
 print('-'*85)
 print('Handle np.nan problem:')
