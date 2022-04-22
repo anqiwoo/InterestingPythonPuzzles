@@ -1,4 +1,16 @@
 '''
+App -> DBMS -> DB
+
+0. Concepts
+    - Database is a collection of data and a method for accessing and manipulating the data.
+        - Database is a structured set of computerized data with an accessible interface.
+    - Database Management System is the interface for your app to talk to the Database.
+        - What makes DBMS unique are the features they offer, not the language(SQL). [like permission/security/speed]
+    - SQL is the language we use to talk to our Databases.
+    - MySQL is a DBMS and working with MySQL is pretty much writing SQL all the time.
+    - 
+
+
 1. SQL是访问和操作关系数据库的计算机标准语言(SQL是结构化查询语言Structured Query Language的缩写)。
     - 无论用什么编程语言（Java、Python、C++……）编写程序，只要涉及到操作关系数据库，比如，一个电商网站需要把用户和商品信息存入数据库，或者一个手机游戏需要把用户的道具、通关信息存入数据库，都必须通过SQL来完成。
     - 所以，现代程序离不开关系数据库，要使用关系数据库就必须掌握SQL。
