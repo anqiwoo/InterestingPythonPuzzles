@@ -114,7 +114,7 @@ Ref: https://www.liaoxuefeng.com/wiki/896043488029600/896067008724000
     - 忽略某些文件时，需要编写.gitignore；
         - .gitignore文件本身要放到版本库里，并且可以对.gitignore做版本管理！
         - 把指定文件排除在.gitignore规则外的写法就是!+文件名，所以，只需把例外文件添加进去即可（like !App.class）。
-        - 可以用git add -f强制添加进去(like git add -f App.class)。
+        - 哪怕.gitignore里限制不追踪某个文件，也可以用git add -f强制添加进去(like git add -f App.class)。
         - 需要找出来到底哪个规则写错了，可以用git check-ignore命令检查（like  git check-ignore -v App.class）
     - 给Git配置好别名，就可以输入命令时偷个懒。我们鼓励偷懒。(like git config --global alias.ci commit)
 
