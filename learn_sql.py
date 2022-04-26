@@ -172,7 +172,7 @@ App -> DBMS -> DB
         - FULL OUTER JOIN返回两张表的所有记录，并且，自动把对方不存在的列填充为NULL。
 
 5. 修改数据
-    - 关系数据库的基本操作就是增删改查，即CRUD：Create、Retrieve、Update、Delete。其中，对于查询，我们已经详细讲述了SELECT语句的详细用法。而对于增、删、改，对应的SQL语句分别是：
+    - 关系数据库的基本操作就是增删改查，即CRUD：Create、Read、Update、Delete。其中，对于查询，我们已经详细讲述了SELECT语句的详细用法。而对于增、删、改，对应的SQL语句分别是：
         INSERT：插入新记录；
         DELETE：删除已有记录；
         UPDATE：更新已有记录。
