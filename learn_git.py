@@ -21,7 +21,14 @@ Ref: https://www.liaoxuefeng.com/wiki/896043488029600/896067008724000
     - 初始化一个Git仓库，使用git init命令。
     - 添加文件到Git仓库，分两步：
         1. 使用命令git add <file>，注意，可反复多次使用，添加多个文件,实际上就是把工作区的文件修改添加到暂存区；
-        2. 使用命令git commit -m <message>，完成，实际上就是把暂存区stage的所有内容提交到当前分支。
+        2. 使用命令git commit -m <message>，完成，实际上就是把暂存区stage的所有内容提交到当前分支。(A commit is a specific snapshot of your working directory at a particular time.)
+    - Amend latest commit (changing commit message or add forgotten files):
+        - git add [forgotten-file]
+        - git commit --amend
+        ! Please note that this new amended commit will replace the previous commit.
+    - Revert a file to its state at the time of the most recent commit:
+        - git checkout -- [file]
+        This command is useful if you would like to actually undo your work. Let’s say that you have modified a certain file since committing previously, but you would like your file back to how it was before your modifications.
     - 要随时掌握工作区的状态，使用git status命令。
     - 如果git status告诉你有文件被修改过，用git diff可以查看修改内容。
     - HEAD指向的版本就是当前版本，因此，Git允许我们在版本的历史之间穿梭，使用命令git reset --hard commit_id。
