@@ -51,7 +51,16 @@ Ref: https://www.liaoxuefeng.com/wiki/896043488029600/896067008724000
     - 要关联一个远程库，使用命令git remote add origin git@server-name:path/repo-name.git(like git remote add origin git@github.com:michaelliao/learn-git.git;实际上，Git支持多种协议，默认的git://使用ssh，但也可以使用https等其他协议，但ssh协议速度最快。), 关联一个远程库时必须给远程库指定一个名字，origin是默认习惯命名；
     - 关联后，使用命令git push -u origin master第一次推送master分支的所有内容。此后，每次本地提交后，只要有必要，就可以使用命令git push origin master推送最新修改；
     - 如果添加的时候地址写错了，或者就是想删除远程库，可以用git remote rm <name>命令。使用前，建议先用git remote -v查看远程库信息;
-    - 要克隆一个仓库，首先必须知道仓库的地址，然后使用git clone命令克隆。
+    - 要克隆一个仓库，首先必须知道仓库的地址，然后使用git clone命令克隆;
+    - git fetch [remote-name]: This is analogous to downloading the commits. It does not incorporate them into your own code.
+        - Fetching the changes will only update your local copy of the remote code but not merge the changes into your own code.
+        - For a more particular example, let’s say that your partner creates a new branch on the remote called fixing-ai-heuristics. You can view that branch’s commits with the following steps:
+            $ git fetch origin
+            $ git branch review-ai-fix origin/fixing-ai-heuristics
+            $ git checkout review-ai-fix
+            - The second command creates a new branch called review-ai-fix that tracks the fixing-ai-heuristics branch on the origin remote.
+    - git pull [remote-name] [remote-branch-name]: This is equivalent to a fetch + merge. Not only will pull fetch the most recent changes, it will also merge the changes into your HEAD branch.
+    
 
 10. 分支管理【branch】
     - 每次提交，Git都把它们串成一条时间线，这条时间线就是一个分支。截止到目前，只有一条时间线，在Git里，这个分支叫主分支，即master分支。HEAD严格来说不是指向提交，而是指向master，master才是指向提交的，所以，HEAD指向的就是当前分支。一开始的时候，master分支是一条线，Git用master指向最新的提交，再用HEAD指向master，就能确定当前分支，以及当前分支的提交点。每次提交，master分支都会向前移动一步，这样，随着你不断提交，master分支的线也越来越长。
@@ -79,7 +88,7 @@ Ref: https://www.liaoxuefeng.com/wiki/896043488029600/896067008724000
         - 在master分支上修复的bug，想要合并到当前dev分支，可以用git cherry-pick <commit>命令，把bug提交的修改“复制”到当前分支，避免重复劳动。
     - Feature分支
         - 开发一个新feature，最好新建一个分支；
-        - 如果要丢弃一个没有被合并过的分支，可以通过git branch -D <name>强行删除。
+        - 如果要丢弃一个没有被合并过的分支，可以通过git branch -D/-d <name>强行删除。
     - 多人协作
         - 查看远程库信息，使用git remote -v；
         - 本地新建的分支如果不推送到远程，对其他人就是不可见的；
