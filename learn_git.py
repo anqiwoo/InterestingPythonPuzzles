@@ -60,6 +60,8 @@ Ref: https://www.liaoxuefeng.com/wiki/896043488029600/896067008724000
             $ git checkout review-ai-fix
             - The second command creates a new branch called review-ai-fix that tracks the fixing-ai-heuristics branch on the origin remote.
     - git pull [remote-name] [remote-branch-name]: This is equivalent to a fetch + merge. Not only will pull fetch the most recent changes, it will also merge the changes into your HEAD branch.
+        - Let’s say that my boss partner has pushed some commits to the master branch of our shared remote that fix our AI heuristics. I happen to know that it won’t break my code, so I can just pull it and merge it into my own code right away.
+            $ git pull origin master
     
 
 10. 分支管理【branch】

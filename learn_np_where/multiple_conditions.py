@@ -16,5 +16,5 @@ print(f'condition 1:\n {conditions1}\n')
 print(f'condition 2:\n {conditions2}\n')
 
 # use the np.where() function
-print(f'np.where(conditions1):\n {np.where(conditions1, x, y)}\n')
-print(f'np.where(conditions2):\n {np.where(conditions2, x, y)}')
+print(f'np.where(conditions1, x, y):\n {np.where(conditions1, x, y)}\n')
+print(f'np.where(conditions2, x, y):\n {np.where(conditions2, x, y)}')
